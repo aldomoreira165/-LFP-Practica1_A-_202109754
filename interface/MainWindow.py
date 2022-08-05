@@ -3,7 +3,7 @@ from pickletools import long1
 import tkinter as tk
 from tkinter import END, filedialog
 from tkinter import ttk
-from subjects import subjects
+from Subjects import Subjects
 
 #funciones
 
@@ -18,13 +18,13 @@ def searchFile():
    
    for i in fileToRead.readlines():
        data = i.split(",")
-       sub = subjects(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
-       subjects.subjects_list.append(sub)
+       sub = Subjects(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
+       Subjects.subjects_list.append(sub)
 
 def printValues():
-    longitud = len(subjects.subjects_list)
+    longitud = len(Subjects.subjects_list)
     for i in range(0, longitud):
-        print(subjects.subjects_list[i].code+ "," + subjects.subjects_list[i].name)              
+        print(Subjects.subjects_list[i].code+ "," + Subjects.subjects_list[i].name)              
 
 def window_openFile():
     windowOpenFile = tk.Toplevel()
@@ -37,8 +37,8 @@ def window_openFile():
 def window_viewSubjects():
     windowViewSubjects = tk.Toplevel()
     windowViewSubjects.geometry("500x500")
-    table = ttk.Treeview(windowViewSubjects, columns=("#0","#1","#2","#3","#4","#5","#6"))
-    table.grid(row=1, column=0, columnspan=1)
+    table = ttk.Treeview(windowViewSubjects, columns=("#0","#1","#2","#3","#4","#5"))
+    table.grid(row=1, column=0, columnspan=2)
     table.heading("#0", text="Código")
     table.heading("#1", text="Nombre")
     table.heading("#2", text="Pre")
@@ -47,11 +47,14 @@ def window_viewSubjects():
     table.heading("#5", text="Créditos")
     table.heading("#6", text="Estado")
     
-    for data in subjects.subjects_list:
-        table.insert("",END, values=data)
+    for data in Subjects.subjects_list:
+        table.insert('',0, text=data.code, values=(data.name, data.prerequisites, data.required, 
+        data.semester, data.credit, data.status))
+        
+        
     
-    
-    
+        
+        
 def window_manageSubjects():
     windowManageSubjects = tk.Toplevel()
     windowManageSubjects.geometry("300x300")
@@ -74,6 +77,6 @@ tk.Label(window, text="Carné del Estudiante: 202109754").pack()
 tk.Button(window, text="Cargar Archivo", command=window_openFile).pack()
 tk.Button(window, text="Gestionar Cursos", command=window_manageSubjects).pack()
 tk.Button(window, text="Conteo de Créditos").pack()
-tk.Button(window, text="Salir").pack()
+tk.Button(window, text="Salir", command=window.destroy).pack()
 
 window.mainloop()

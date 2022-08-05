@@ -1,5 +1,5 @@
 
-class subjects: 
+class Subjects: 
     code = 0
     name = ""
     prerequisites = 0
