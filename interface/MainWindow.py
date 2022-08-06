@@ -1,15 +1,37 @@
-from fileinput import filename
-from pickletools import long1
+from __future__ import print_function
+import code
+from pyexpat.errors import codes
 import tkinter as tk
-from tkinter import END, filedialog
+from tkinter import END, Button, IntVar, StringVar, filedialog
 from tkinter import ttk
+from tkinter.font import names
+from unicodedata import name
+from urllib import request
 from Subjects import Subjects
+
+global codeX
+code = 0
+global nameS
+nameS = ""
+global prerequisiteS
+prerequisiteS = 0
+global semesterS
+semesterS = 0
+global requestedS
+requestedS = 0
+global crediS
+crediS = 0
+global statusS
+statusS = 0
 
 #funciones
 
-def closeWindow():
-    window.destroy()
-    
+def saludo():
+    print('Hola')
+
+def imprimir():
+        print('HOLIS')
+
 def searchFile():
    file = filedialog.askopenfilename(title="Buscar archivo", filetypes=(("Tipo de archivos", 
     "*.csv"), ("Archivos csv", "*.csv")))
@@ -51,16 +73,38 @@ def window_viewSubjects():
         table.insert('',0, text=data.code, values=(data.name, data.prerequisites, data.required, 
         data.semester, data.credit, data.status))
         
-        
+def addS():
+    Subjects.subjects_list.append(codeX, nameS, prerequisiteS, semesterS, requestedS, crediS, statusS) 
+
+def window_addSubject():
+    windowAddSubject = tk.Toplevel()
+    windowAddSubject.geometry("300x300")
+    tk.Label(windowAddSubject, text="Agregar Curso").pack()
+    codeX = IntVar()
+    nameS = StringVar()
+    prerequisiteS = IntVar()
+    semesterS = IntVar()
+    requestedS = IntVar()
+    crediS = IntVar()
+    statusS = IntVar()
     
-        
-        
+    tk.Entry(windowAddSubject, textvariable=codeX).pack()
+    tk.Entry(windowAddSubject, textvariable=nameS).pack()
+    tk.Entry(windowAddSubject, textvariable=prerequisiteS).pack()
+    tk.Entry(windowAddSubject, textvariable=semesterS).pack()
+    tk.Entry(windowAddSubject, textvariable=requestedS).pack()
+    tk.Entry(windowAddSubject, textvariable=crediS).pack()
+    tk.Entry(windowAddSubject, textvariable=statusS).pack()
+    
+    tk.Button(windowAddSubject, text="Agregar Curso", command=addS).pack()
+    tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy).pack()   
+
 def window_manageSubjects():
     windowManageSubjects = tk.Toplevel()
     windowManageSubjects.geometry("300x300")
     tk.Label(windowManageSubjects, text="Gestionar Cursos").pack()
     tk.Button(windowManageSubjects, text="Listar Cursos", command=window_viewSubjects).pack()
-    tk.Button(windowManageSubjects, text="Agregar Cursos").pack()
+    tk.Button(windowManageSubjects, text="Agregar Cursos", command=window_addSubject).pack()
     tk.Button(windowManageSubjects, text="Editar Cursos").pack()
     tk.Button(windowManageSubjects, text="Eliminar Cursos").pack()
     tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy).pack()
