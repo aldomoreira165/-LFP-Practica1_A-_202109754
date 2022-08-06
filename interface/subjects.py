@@ -18,7 +18,7 @@ class Subjects:
         self.credit = credit
         self.status = status
         
-    def addSubject(self, code, name, prerequisites, required, semester, credit, status):
+    def addSubject(code, name, prerequisites, required, semester, credit, status):
         newSubject = Subjects(code, name, prerequisites, required, semester, credit, status)
-        self.subjects_list.append(newSubject)
+        Subjects.subjects_list.append(newSubject)
         
