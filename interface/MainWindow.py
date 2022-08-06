@@ -3,6 +3,8 @@ from pyexpat.errors import codes
 import tkinter as tk
 from tkinter import END, Button, IntVar, StringVar, filedialog
 from tkinter import ttk
+from tokenize import String
+from types import CodeType
 from Subjects import Subjects
 
 #funciones
@@ -52,13 +54,13 @@ def window_addSubject():
     windowAddSubject.geometry("300x300")
     tk.Label(windowAddSubject, text="Agregar Curso").pack()
     
-    code = IntVar()
+    code = StringVar()
     name = StringVar()
-    prerequisite = IntVar()
-    semester = IntVar()
-    requested = IntVar()
-    credi = IntVar()
-    status = IntVar()
+    prerequisite = StringVar()
+    semester = StringVar()
+    requested = StringVar()
+    credi = StringVar()
+    status =StringVar()
     
     tk.Entry(windowAddSubject, textvariable=code).pack()
     tk.Entry(windowAddSubject, textvariable=name).pack()
@@ -72,16 +74,42 @@ def window_addSubject():
         Subjects.addSubject(code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(), credi.get(), status.get())
     
     tk.Button(windowAddSubject, text="Agregar Curso", command=addS).pack()
-    tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy).pack()   
+    tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy).pack()  
+    
+def window_deleteSubject():
+    windowDeleteSubject = tk.Toplevel()
+    windowDeleteSubject.geometry("300x300")
+    
+    code = StringVar()
+    tk.Entry(windowDeleteSubject, textvariable=code).pack()
+    
+    def delete():
+        Subjects.deleteSubject(code.get())
+    
+    tk.Button(windowDeleteSubject, text="Eliminar Curso", command=delete).pack()
+    tk.Button(windowDeleteSubject, text="Regresar", command=windowDeleteSubject.destroy).pack()
+    
+def window_showSubject():
+    windowShowSubject = tk.Toplevel()
+    windowShowSubject.geometry("300x300")
+    codeToLookFor = StringVar()
+    tk.Entry(windowShowSubject, textvariable=codeToLookFor).pack()
+    
+    def lookinFor():
+        Subjects.showSubject(codeToLookFor)
+    
+    tk.Button(windowShowSubject, text="Verificar", command=lookinFor).pack()
+    tk.Button(windowShowSubject, text="Regresar", command=windowShowSubject.destroy).pack()
 
 def window_manageSubjects():
     windowManageSubjects = tk.Toplevel()
     windowManageSubjects.geometry("300x300")
     tk.Label(windowManageSubjects, text="Gestionar Cursos").pack()
     tk.Button(windowManageSubjects, text="Listar Cursos", command=window_viewSubjects).pack()
+    tk.Button(windowManageSubjects, text="Mostrar Cursos", command=window_showSubject).pack()
     tk.Button(windowManageSubjects, text="Agregar Cursos", command=window_addSubject).pack()
     tk.Button(windowManageSubjects, text="Editar Cursos").pack()
-    tk.Button(windowManageSubjects, text="Eliminar Cursos").pack()
+    tk.Button(windowManageSubjects, text="Eliminar Cursos", command=window_deleteSubject).pack()
     tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy).pack()
     
 #ventana de menú principal
