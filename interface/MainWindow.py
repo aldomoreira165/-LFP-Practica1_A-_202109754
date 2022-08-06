@@ -1,7 +1,8 @@
 from __future__ import print_function
 from pyexpat.errors import codes
+from re import X
 import tkinter as tk
-from tkinter import END, Button, IntVar, StringVar, filedialog
+from tkinter import END, Y, Button, IntVar, StringVar, filedialog, Place
 from tkinter import ttk
 from tokenize import String
 from types import CodeType
@@ -51,8 +52,9 @@ def window_viewSubjects():
      
 def window_addSubject():
     windowAddSubject = tk.Toplevel()
-    windowAddSubject.geometry("300x300")
-    tk.Label(windowAddSubject, text="Agregar Curso").pack()
+    windowAddSubject.geometry("500x450")
+    lbl = tk.Label(windowAddSubject, text="Agregar Curso")
+    lbl.place(x=210, y=20, width=100, height=30)
     
     code = StringVar()
     name = StringVar()
@@ -62,32 +64,44 @@ def window_addSubject():
     credi = StringVar()
     status =StringVar()
     
-    tk.Entry(windowAddSubject, textvariable=code).pack()
-    tk.Entry(windowAddSubject, textvariable=name).pack()
-    tk.Entry(windowAddSubject, textvariable=prerequisite).pack()
-    tk.Entry(windowAddSubject, textvariable=requested).pack()
-    tk.Entry(windowAddSubject, textvariable=semester).pack()
-    tk.Entry(windowAddSubject, textvariable=credi).pack()
-    tk.Entry(windowAddSubject, textvariable=status).pack()
+    txt = tk.Entry(windowAddSubject, textvariable=code)
+    txt.place(x=160, y=80, width=200, height=30)
+    txt1 = tk.Entry(windowAddSubject, textvariable=name)
+    txt1.place(x=160, y=120, width=200, height=30)
+    txt2 = tk.Entry(windowAddSubject, textvariable=prerequisite)
+    txt2.place(x=160, y=160, width=200, height=30)
+    txt3 = tk.Entry(windowAddSubject, textvariable=requested)
+    txt3.place(x=160, y=200, width=200, height=30)
+    txt4 = tk.Entry(windowAddSubject, textvariable=semester)
+    txt4.place(x=160, y=240, width=200, height=30)
+    txt5 = tk.Entry(windowAddSubject, textvariable=credi)
+    txt5.place(x=160, y=280, width=200, height=30)
+    txt6 = tk.Entry(windowAddSubject, textvariable=status)
+    txt6.place(x=160, y=320, width=200, height=30)
     
     def addS():
         Subjects.addSubject(code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(), credi.get(), status.get())
     
-    tk.Button(windowAddSubject, text="Agregar Curso", command=addS).pack()
-    tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy).pack()  
+    btn = tk.Button(windowAddSubject, text="Agregar Curso", command=addS)
+    btn.place(x=160, y=360, width=200, height=30)
+    btn2 = tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy)
+    btn2.place(x=20, y=20, width=100, height=30) 
     
 def window_deleteSubject():
     windowDeleteSubject = tk.Toplevel()
-    windowDeleteSubject.geometry("300x300")
+    windowDeleteSubject.geometry("500x250")
     
     code = StringVar()
-    tk.Entry(windowDeleteSubject, textvariable=code).pack()
+    entry = tk.Entry(windowDeleteSubject, textvariable=code)
+    entry.place(x=50, y=70, width=400, height=60)
     
     def delete():
         Subjects.deleteSubject(code.get())
     
-    tk.Button(windowDeleteSubject, text="Eliminar Curso", command=delete).pack()
-    tk.Button(windowDeleteSubject, text="Regresar", command=windowDeleteSubject.destroy).pack()
+    btn = tk.Button(windowDeleteSubject, text="Eliminar Curso", command=delete)
+    btn.place(x=50, y=150, width=400, height=35)
+    btn1 = tk.Button(windowDeleteSubject, text="Regresar", command=windowDeleteSubject.destroy)
+    btn1.place(x=20, y=20, width=100, height=30)
     
 def window_showSubject():
     windowShowSubject = tk.Toplevel()
@@ -103,27 +117,42 @@ def window_showSubject():
 
 def window_manageSubjects():
     windowManageSubjects = tk.Toplevel()
-    windowManageSubjects.geometry("300x300")
-    tk.Label(windowManageSubjects, text="Gestionar Cursos").pack()
-    tk.Button(windowManageSubjects, text="Listar Cursos", command=window_viewSubjects).pack()
-    tk.Button(windowManageSubjects, text="Mostrar Cursos", command=window_showSubject).pack()
-    tk.Button(windowManageSubjects, text="Agregar Cursos", command=window_addSubject).pack()
-    tk.Button(windowManageSubjects, text="Editar Cursos").pack()
-    tk.Button(windowManageSubjects, text="Eliminar Cursos", command=window_deleteSubject).pack()
-    tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy).pack()
+    windowManageSubjects.geometry("500x450")
+    lbl = tk.Label(windowManageSubjects, text="Gestionar Cursos")
+    lbl.place(x=205, y=20)
+    btn = tk.Button(windowManageSubjects, text="Listar Cursos", command=window_viewSubjects)
+    btn.place(x=180, y=80, width=150, height=50)
+    btn1 = tk.Button(windowManageSubjects, text="Mostrar Cursos", command=window_showSubject)
+    btn1.place(x=180, y=140, width=150, height=50)
+    btn2 = tk.Button(windowManageSubjects, text="Agregar Cursos", command=window_addSubject)
+    btn2.place(x=180, y=200, width=150, height=50)
+    btn3 = tk.Button(windowManageSubjects, text="Editar Cursos")
+    btn3.place(x=180, y=260, width=150, height=50)
+    btn4 = tk.Button(windowManageSubjects, text="Eliminar Cursos", command=window_deleteSubject)
+    btn4.place(x=180, y=320, width=150, height=50)
+    btn5 = tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy)
+    btn5.place(x=180, y=380, width=150, height=50)
     
 #ventana de menú principal
 window = tk.Tk()
-window.geometry("500x500")
-tk.Wm.title(window, "Gestión de Cursos Ingeniería")
-tk.Label(window, text="Nombre del Curso: Lab. Lenguajes Formales y de Programación").pack()
-tk.Label(window, text="Nombre del Estudiante: Aldo Saúl Vásquez Moreira").pack()
-tk.Label(window, text="Carné del Estudiante: 202109754").pack()
+window.geometry("500x400")
+#window.eval('tk::PlaceWindow . center')
+lbl1 = tk.Wm.title(window, "Gestión de Cursos Ingeniería")
+lbl2 = tk.Label(window, text="Nombre del Curso: Lab. Lenguajes Formales y de Programación")
+lbl2.place(x=75,y=40)
+lbl3 = tk.Label(window, text="Nombre del Estudiante: Aldo Saúl Vásquez Moreira")
+lbl3.place(x=120,y=60)
+lbl4 = tk.Label(window, text="Carné del Estudiante: 202109754")
+lbl4.place(x=160, y=80)
 
 #botones de menú principal
-tk.Button(window, text="Cargar Archivo", command=window_openFile).pack()
-tk.Button(window, text="Gestionar Cursos", command=window_manageSubjects).pack()
-tk.Button(window, text="Conteo de Créditos").pack()
-tk.Button(window, text="Salir", command=window.destroy).pack()
+b = tk.Button(window, text="Cargar Archivo", command=window_openFile)
+b.place(x=180, y=120, width=150, height=50)
+b1 = tk.Button(window, text="Gestionar Cursos", command=window_manageSubjects)
+b1.place(x=180, y=180, width=150, height=50)
+b2 = tk.Button(window, text="Conteo de Créditos")
+b2.place(x=180, y=240, width=150, height=50)
+b3 = tk.Button(window, text="Salir", command=window.destroy)
+b3.place(x=180, y=300, width=150, height=50)
 
 window.mainloop()
