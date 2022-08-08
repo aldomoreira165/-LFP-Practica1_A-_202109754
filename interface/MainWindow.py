@@ -2,7 +2,6 @@ from __future__ import print_function
 import tkinter as tk
 from tkinter import END, StringVar, filedialog
 from tkinter import ttk
-from unittest import result
 from Subjects import Subject
 import Functions as fn
 
@@ -102,16 +101,106 @@ def window_deleteSubject():
     
 def window_showSubject():
     windowShowSubject = tk.Toplevel()
-    windowShowSubject.geometry("300x300")
-    codeToLookFor = StringVar()
-    tk.Entry(windowShowSubject, textvariable=codeToLookFor).pack()
-        
-    def lookinFor():
-        fn.showSubject(codeToLookFor)
-
+    windowShowSubject.geometry("500x500")
     
-    tk.Button(windowShowSubject, text="Buscar", command=lookinFor).pack()
+    codeToSearch = StringVar()
+    
+    tk.Entry(windowShowSubject, textvariable=codeToSearch).pack()
+    txt = tk.Entry(windowShowSubject)
+    txt.place(x=160, y=80, width=200, height=30)
+    txt1 = tk.Entry(windowShowSubject)
+    txt1.place(x=160, y=120, width=200, height=30)
+    txt2 = tk.Entry(windowShowSubject)
+    txt2.place(x=160, y=160, width=200, height=30)
+    txt3 = tk.Entry(windowShowSubject)
+    txt3.place(x=160, y=200, width=200, height=30)
+    txt4 = tk.Entry(windowShowSubject)
+    txt4.place(x=160, y=240, width=200, height=30)
+    txt5 = tk.Entry(windowShowSubject)
+    txt5.place(x=160, y=280, width=200, height=30)
+    txt6 = tk.Entry(windowShowSubject)
+    txt6.place(x=160, y=320, width=200, height=30)
+        
+    def search():
+        result = fn.showSubject(codeToSearch.get())
+        
+        if  result == True:
+            position = fn.searchPosition(codeToSearch.get());
+            
+            txt.insert(0, Subject.subjects_list[position].code)
+            txt1.insert(0, Subject.subjects_list[position].name)
+            txt2.insert(0, Subject.subjects_list[position].prerequisites)
+            txt3.insert(0, Subject.subjects_list[position].required)
+            txt4.insert(0, Subject.subjects_list[position].semester)
+            txt5.insert(0, Subject.subjects_list[position].credit)
+            txt6.insert(0, Subject.subjects_list[position].status)
+            
+    def cleanEntry():
+        txt.delete(0, 100)
+        txt1.delete(0, 100)
+        txt2.delete(0, 100)
+        txt3.delete(0, 100)
+        txt4.delete(0, 100)
+        txt5.delete(0, 100)
+        txt6.delete(0, 100)
+    
+    tk.Button(windowShowSubject, text="Buscar", command=search).pack()
+    tk.Button(windowShowSubject, text="Borrar", command=cleanEntry).pack()
     tk.Button(windowShowSubject, text="Regresar", command=windowShowSubject.destroy).pack()
+    
+def window_editSubject():
+    windowEditSubject = tk.Toplevel()
+    windowEditSubject.geometry("500x500")
+    
+    code = StringVar()
+    name = StringVar()
+    prerequisite = StringVar()
+    semester = StringVar()
+    requested = StringVar()
+    credi = StringVar()
+    status =StringVar()
+    
+    codeToSearch = StringVar()
+    tk.Entry(windowEditSubject, textvariable=codeToSearch).pack()
+    txt = tk.Entry(windowEditSubject, textvariable=code)
+    txt.place(x=160, y=80, width=200, height=30)
+    txt1 = tk.Entry(windowEditSubject, textvariable=name)
+    txt1.place(x=160, y=120, width=200, height=30)
+    txt2 = tk.Entry(windowEditSubject, textvariable=prerequisite)
+    txt2.place(x=160, y=160, width=200, height=30)
+    txt3 = tk.Entry(windowEditSubject, textvariable=requested)
+    txt3.place(x=160, y=200, width=200, height=30)
+    txt4 = tk.Entry(windowEditSubject, textvariable=semester)
+    txt4.place(x=160, y=240, width=200, height=30)
+    txt5 = tk.Entry(windowEditSubject, textvariable=credi)
+    txt5.place(x=160, y=280, width=200, height=30)
+    txt6 = tk.Entry(windowEditSubject, textvariable=status)
+    txt6.place(x=160, y=320, width=200, height=30)
+    
+    def search():
+        result = fn.showSubject(codeToSearch.get())
+        
+        if  result == True:
+            position = fn.searchPosition(codeToSearch.get());
+            
+            txt.insert(0, Subject.subjects_list[position].code)
+            txt1.insert(0, Subject.subjects_list[position].name)
+            txt2.insert(0, Subject.subjects_list[position].prerequisites)
+            txt3.insert(0, Subject.subjects_list[position].required)
+            txt4.insert(0, Subject.subjects_list[position].semester)
+            txt5.insert(0, Subject.subjects_list[position].credit)
+            txt6.insert(0, Subject.subjects_list[position].status)
+            
+    def edit():
+        position = fn.searchPosition(codeToSearch.get());
+        fn.modifySubject(position, code.get(), name.get(), prerequisite.get(), semester.get(), requested.get(),
+                    credi.get(), status.get())
+    
+    
+    tk.Button(windowEditSubject, text="Buscar", command=search).pack()
+    tk.Button(windowEditSubject, text="Editar", command=edit).pack()
+    tk.Button(windowEditSubject, text="Regresar", command=windowEditSubject.destroy).pack()
+    
 
 def window_manageSubjects():
     windowManageSubjects = tk.Toplevel()
@@ -124,7 +213,7 @@ def window_manageSubjects():
     btn1.place(x=180, y=140, width=150, height=50)
     btn2 = tk.Button(windowManageSubjects, text="Agregar Cursos", command=window_addSubject)
     btn2.place(x=180, y=200, width=150, height=50)
-    btn3 = tk.Button(windowManageSubjects, text="Editar Cursos")
+    btn3 = tk.Button(windowManageSubjects, text="Editar Cursos", command=window_editSubject)
     btn3.place(x=180, y=260, width=150, height=50)
     btn4 = tk.Button(windowManageSubjects, text="Eliminar Cursos", command=window_deleteSubject)
     btn4.place(x=180, y=320, width=150, height=50)
