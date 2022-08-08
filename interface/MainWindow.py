@@ -1,12 +1,10 @@
 from __future__ import print_function
-from pyexpat.errors import codes
-from re import X
 import tkinter as tk
-from tkinter import END, Y, Button, IntVar, StringVar, filedialog, Place
+from tkinter import END, StringVar, filedialog
 from tkinter import ttk
-from tokenize import String
-from types import CodeType
-from Subjects import Subjects
+from unittest import result
+from Subjects import Subject
+import Functions as fn
 
 #funciones
 def searchFile():
@@ -17,13 +15,12 @@ def searchFile():
    
    for i in fileToRead.readlines():
        data = i.split(",")
-       sub = Subjects(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
-       Subjects.subjects_list.append(sub)
-
+       fn.addSubject(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
+       
 def printValues():
-    longitud = len(Subjects.subjects_list)
+    longitud = len(Subject.subjects_list)
     for i in range(0, longitud):
-        print(Subjects.subjects_list[i].code+ "," + Subjects.subjects_list[i].name)              
+        print(Subject.subjects_list[i].code+ "," + Subject.subjects_list[i].name)              
 
 def window_openFile():
     windowOpenFile = tk.Toplevel()
@@ -46,7 +43,7 @@ def window_viewSubjects():
     table.heading("#5", text="Créditos")
     table.heading("#6", text="Estado")
     
-    for data in Subjects.subjects_list:
+    for data in Subject.subjects_list:
         table.insert('',0, text=data.code, values=(data.name, data.prerequisites, data.required, 
         data.semester, data.credit, data.status))
      
@@ -80,7 +77,7 @@ def window_addSubject():
     txt6.place(x=160, y=320, width=200, height=30)
     
     def addS():
-        Subjects.addSubject(code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(), credi.get(), status.get())
+        fn.addSubject(code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(), credi.get(), status.get())
     
     btn = tk.Button(windowAddSubject, text="Agregar Curso", command=addS)
     btn.place(x=160, y=360, width=200, height=30)
@@ -96,7 +93,7 @@ def window_deleteSubject():
     entry.place(x=50, y=70, width=400, height=60)
     
     def delete():
-        Subjects.deleteSubject(code.get())
+        fn.deleteSubject(code.get())
     
     btn = tk.Button(windowDeleteSubject, text="Eliminar Curso", command=delete)
     btn.place(x=50, y=150, width=400, height=35)
@@ -108,11 +105,12 @@ def window_showSubject():
     windowShowSubject.geometry("300x300")
     codeToLookFor = StringVar()
     tk.Entry(windowShowSubject, textvariable=codeToLookFor).pack()
-    
+        
     def lookinFor():
-        Subjects.showSubject(codeToLookFor)
+        fn.showSubject(codeToLookFor)
+
     
-    tk.Button(windowShowSubject, text="Verificar", command=lookinFor).pack()
+    tk.Button(windowShowSubject, text="Buscar", command=lookinFor).pack()
     tk.Button(windowShowSubject, text="Regresar", command=windowShowSubject.destroy).pack()
 
 def window_manageSubjects():

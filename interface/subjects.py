@@ -1,5 +1,4 @@
-
-class Subjects: 
+class Subject: 
     code = 0
     name = ""
     prerequisites = 0
@@ -17,24 +16,7 @@ class Subjects:
         self.semester = semester
         self.credit = credit
         self.status = status
-        
-    def addSubject(code, name, prerequisites, required, semester, credit, status):
-        newSubject = Subjects(code, name, prerequisites, required, semester, credit, status)
-        Subjects.subjects_list.append(newSubject)
-        
-    def deleteSubject(codeParameter):
-        longitude = len(Subjects.subjects_list)
-        for i in range(0, longitude-1):
-            if Subjects.subjects_list[i].code == codeParameter:
-                del Subjects.subjects_list[i]
-                
-    def showSubject(codeParameter):
-        longitude = len(Subjects.subjects_list)
-        for i in range(0, longitude-1):
-            if Subjects.subjects_list[i].code == codeParameter:
-                print(Subjects.subjects_list[i])
-            else:
-                print("No se ha encontrado el registro.")
+
         
             
     
