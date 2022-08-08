@@ -16,7 +16,7 @@ def deleteSubject(codeParameter):
 def modifySubject(position,code, name, prerequisites, required, semester, credit, status):
     Subject.subjects_list[position].code = code
     Subject.subjects_list[position].name = name
-    Subject.subjects_list[position].prerequisite = prerequisites
+    Subject.subjects_list[position].prerequisites = prerequisites
     Subject.subjects_list[position].required = required
     Subject.subjects_list[position].semester = semester
     Subject.subjects_list[position].credit = credit
