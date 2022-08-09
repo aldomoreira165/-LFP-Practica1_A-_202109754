@@ -239,13 +239,42 @@ def window_credits():
     cursingPCredits = StringVar()
     cursingPCredits.set(str(fn.coursesPCounter("-1", "1")))
     lblCursingP = tk.Label(windowCredits, textvariable=cursingPCredits).pack()
-    tk.Button(windowCredits, text="Regresar", command=windowCredits.destroy).pack()
     
     #creditos hasta semestre N
+    lbl = tk.Label(windowCredits, text="Créditos Obligatorioas hasta Semestre N").pack()
     combo = ttk.Combobox(windowCredits)
     combo['values'] = ('1','2','3','4','5','6','7','8','9','10')
     combo.pack()
+ 
+    credP = StringVar()
+ 
+    def creditsUntilSemester():
+        credP.set(str(fn.requiredCredits(combo.get())))
+        
+    tk.Button(windowCredits, text="Contar", command=creditsUntilSemester).pack()
+    lbl2 = tk.Label(windowCredits, textvariable=credP).pack()
+        
+    #creditos en semestre N
+    lbl = tk.Label(windowCredits, text="Créditos del Semestre N").pack()
+    combo2 = ttk.Combobox(windowCredits)
+    combo2['values'] = ('1','2','3','4','5','6','7','8','9','10')
+    combo2.pack()
+ 
+    credA = StringVar()
+    credC = StringVar()
+    credPP = StringVar()
     
+    def creditsUntilSemesterN():
+        credA.set(str(fn.requiredCreditsNA(combo2.get())))
+        credC.set(str(fn.requiredCreditsNC(combo2.get())))
+        credPP.set(str(fn.requiredCreditsNP(combo2.get())))
+    
+    tk.Button(windowCredits, text="Contar", command=creditsUntilSemesterN).pack()
+    lbl2 = tk.Label(windowCredits, textvariable=credA).pack()
+    lbl2 = tk.Label(windowCredits, textvariable=credC).pack()
+    lbl2 = tk.Label(windowCredits, textvariable=credPP).pack()
+    
+    tk.Button(windowCredits, text="Regresar", command=windowCredits.destroy).pack() 
     
 #ventana de menú principal
 window = tk.Tk()

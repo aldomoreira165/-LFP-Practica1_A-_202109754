@@ -59,4 +59,35 @@ def coursesPCounter(status, required):
         if Subject.subjects_list[i].status == status and Subject.subjects_list[i].required == required:
             counter += int(Subject.subjects_list[i].credit)
     return counter    
-            
+
+def requiredCredits(semester):
+    counter = 0
+    longitude = len(Subject.subjects_list)
+    for i in range(longitude):
+        if Subject.subjects_list[i].required == "1" and Subject.subjects_list[i].semester <= semester:
+            counter += int(Subject.subjects_list[i].credit)
+    return counter
+
+def requiredCreditsNA(semester):
+    counter = 0
+    longitude = len(Subject.subjects_list)
+    for i in range(longitude):
+        if Subject.subjects_list[i].semester == semester and Subject.subjects_list[i].status == "0":
+            counter += int(Subject.subjects_list[i].credit)
+    return counter
+
+def requiredCreditsNC(semester):
+    counter = 0
+    longitude = len(Subject.subjects_list)
+    for i in range(longitude):
+        if Subject.subjects_list[i].semester == semester and Subject.subjects_list[i].status == "1":
+            counter += int(Subject.subjects_list[i].credit)
+    return counter
+
+def requiredCreditsNP(semester):
+    counter = 0
+    longitude = len(Subject.subjects_list)
+    for i in range(longitude):
+        if Subject.subjects_list[i].semester == semester and Subject.subjects_list[i].status == "-1":
+            counter += int(Subject.subjects_list[i].credit)
+    return counter
