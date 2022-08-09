@@ -1,3 +1,5 @@
+from ast import Sub
+from time import process_time_ns
 from Subjects import Subject
 
 def addSubject(code, name, prerequisites, required, semester, credit, status):
@@ -41,4 +43,20 @@ def searchPosition(codeParameter):
     for i in range(longitude):
         if Subject.subjects_list[i].code == codeParameter:
             return i
+        
+def coursesCounter(status):
+    counter = 0
+    longitude = len(Subject.subjects_list)
+    for i in range(longitude):
+        if Subject.subjects_list[i].status == status:
+            counter += int(Subject.subjects_list[i].credit)
+    return counter  
+
+def coursesPCounter(status, required):
+    counter = 0
+    longitude = len(Subject.subjects_list)
+    for i in range(longitude):
+        if Subject.subjects_list[i].status == status and Subject.subjects_list[i].required == required:
+            counter += int(Subject.subjects_list[i].credit)
+    return counter    
             

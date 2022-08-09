@@ -1,25 +1,25 @@
 from __future__ import print_function
+from opcode import opname
 import tkinter as tk
 from tkinter import END, StringVar, filedialog
 from tkinter import ttk
 from Subjects import Subject
 import Functions as fn
+import csv
 
 #funciones
 def searchFile():
-   file = filedialog.askopenfilename(title="Buscar archivo", filetypes=(("Tipo de archivos", 
+    file = filedialog.askopenfilename(title="Buscar archivo", filetypes=(("Tipo de archivos", 
     "*.csv"), ("Archivos csv", "*.csv")))
-   
-   fileToRead = open(file, "r")
-   
-   for i in fileToRead.readlines():
-       data = i.split(",")
-       fn.addSubject(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
+    with open(file) as f:
+        reader = csv.reader(f, delimiter=",")
+        for data in reader:
+            fn.addSubject(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
        
-def printValues():
+def printValues():  
     longitud = len(Subject.subjects_list)
     for i in range(0, longitud):
-        print(Subject.subjects_list[i].code+ "," + Subject.subjects_list[i].name)              
+        print(Subject.subjects_list[i].code+ "," + Subject.subjects_list[i].name + "," + Subject.subjects_list[i].status + "," + Subject.subjects_list[i].credit)              
 
 def window_openFile():
     windowOpenFile = tk.Toplevel()
@@ -220,6 +220,33 @@ def window_manageSubjects():
     btn5 = tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy)
     btn5.place(x=180, y=380, width=150, height=50)
     
+def window_credits():
+    windowCredits = tk.Toplevel()
+    windowCredits.geometry("600x600")
+    lbl = tk.Label(windowCredits, text="Conteo de Créditos").pack()
+    
+    lblApproved_title = tk.Label(windowCredits, text="Créditos Aprobados").pack()
+    approvedCredits = StringVar()
+    approvedCredits.set(str(fn.coursesCounter("0")))
+    lblApproved = tk.Label(windowCredits, textvariable=approvedCredits).pack()
+    
+    lblCursing_title = tk.Label(windowCredits, text="Créditos Cursando").pack()
+    cursingCredits = StringVar()
+    cursingCredits.set(str(fn.coursesCounter("1")))
+    lblCursing = tk.Label(windowCredits, textvariable=cursingCredits).pack()
+    
+    lblCursingP_title = tk.Label(windowCredits, text="Créditos Pendientes").pack()
+    cursingPCredits = StringVar()
+    cursingPCredits.set(str(fn.coursesPCounter("-1", "1")))
+    lblCursingP = tk.Label(windowCredits, textvariable=cursingPCredits).pack()
+    tk.Button(windowCredits, text="Regresar", command=windowCredits.destroy).pack()
+    
+    #creditos hasta semestre N
+    combo = ttk.Combobox(windowCredits)
+    combo['values'] = ('1','2','3','4','5','6','7','8','9','10')
+    combo.pack()
+    
+    
 #ventana de menú principal
 window = tk.Tk()
 window.geometry("500x400")
@@ -237,7 +264,7 @@ b = tk.Button(window, text="Cargar Archivo", command=window_openFile)
 b.place(x=180, y=120, width=150, height=50)
 b1 = tk.Button(window, text="Gestionar Cursos", command=window_manageSubjects)
 b1.place(x=180, y=180, width=150, height=50)
-b2 = tk.Button(window, text="Conteo de Créditos")
+b2 = tk.Button(window, text="Conteo de Créditos", command=window_credits)
 b2.place(x=180, y=240, width=150, height=50)
 b3 = tk.Button(window, text="Salir", command=window.destroy)
 b3.place(x=180, y=300, width=150, height=50)
