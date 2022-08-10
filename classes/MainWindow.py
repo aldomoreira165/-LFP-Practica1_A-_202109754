@@ -3,6 +3,7 @@ from opcode import opname
 import tkinter as tk
 from tkinter import END, StringVar, filedialog
 from tkinter import ttk
+from tkinter.font import BOLD
 from Subjects import Subject
 import Functions as fn
 import csv
@@ -23,11 +24,13 @@ def printValues():
 
 def window_openFile():
     windowOpenFile = tk.Toplevel()
-    windowOpenFile.geometry("300x300")
-    tk.Label(windowOpenFile, text="Cargar Archivo").pack()
-    tk.Button(windowOpenFile, text="Buscar Archivo", command=searchFile).pack()
-    tk.Button(windowOpenFile, text="Print", command=printValues).pack()
-    tk.Button(windowOpenFile, text="Regresar", command=windowOpenFile.destroy).pack()
+    windowOpenFile.geometry("500x200")
+    lbl = tk.Label(windowOpenFile, text="Cargar Archivo", font=("Arial", 12, BOLD))
+    lbl.place(x = 195, y = 10)
+    btn = tk.Button(windowOpenFile, text="Buscar Archivo", command=searchFile, font=("Arial", 10))
+    btn.place(x=150, y=80, width=200, height=50)
+    btnR = tk.Button(windowOpenFile, text="Regresar", command=windowOpenFile.destroy, font=("Arial", 10))
+    btnR.place(x=20, y=10, width=100, height=30)
     
 def window_viewSubjects():
     windowViewSubjects = tk.Toplevel()
@@ -49,8 +52,8 @@ def window_viewSubjects():
 def window_addSubject():
     windowAddSubject = tk.Toplevel()
     windowAddSubject.geometry("500x450")
-    lbl = tk.Label(windowAddSubject, text="Agregar Curso")
-    lbl.place(x=210, y=20, width=100, height=30)
+    lbl = tk.Label(windowAddSubject, text="Agregar Curso", font=("Arial", 12, BOLD))
+    lbl.place(x=200, y=10)
     
     code = StringVar()
     name = StringVar()
@@ -75,13 +78,28 @@ def window_addSubject():
     txt6 = tk.Entry(windowAddSubject, textvariable=status)
     txt6.place(x=160, y=320, width=200, height=30)
     
+    lbl = tk.Label(windowAddSubject, text="Código", font=("Arial", 10))
+    lbl.place(x = 60, y = 80)
+    lbl1 = tk.Label(windowAddSubject, text="Nombre", font=("Arial", 10))
+    lbl1.place(x = 60, y = 120)
+    lbl2 = tk.Label(windowAddSubject, text="Pre-requisitos", font=("Arial", 10))
+    lbl2.place(x = 60, y = 160)
+    lbl3 = tk.Label(windowAddSubject, text="Obligatorio", font=("Arial", 10))
+    lbl3.place(x = 60, y = 200)
+    lbl4 = tk.Label(windowAddSubject, text="Semestre", font=("Arial", 10))
+    lbl4.place(x = 60, y = 240)
+    lbl5 = tk.Label(windowAddSubject, text="Créditos", font=("Arial", 10))
+    lbl5.place(x = 60, y = 280)
+    lbl6 = tk.Label(windowAddSubject, text="Estado", font=("Arial", 10))
+    lbl6.place(x = 60, y = 320)
+    
     def addS():
         fn.addSubject(code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(), credi.get(), status.get())
     
-    btn = tk.Button(windowAddSubject, text="Agregar Curso", command=addS)
+    btn = tk.Button(windowAddSubject, text="Agregar Curso", command=addS, font=("Arial", 10))
     btn.place(x=160, y=360, width=200, height=30)
-    btn2 = tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy)
-    btn2.place(x=20, y=20, width=100, height=30) 
+    btn2 = tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy, font=("Arial", 10))
+    btn2.place(x=20, y=10, width=100, height=30) 
     
 def window_deleteSubject():
     windowDeleteSubject = tk.Toplevel()
@@ -105,7 +123,8 @@ def window_showSubject():
     
     codeToSearch = StringVar()
     
-    tk.Entry(windowShowSubject, textvariable=codeToSearch).pack()
+    txtM = tk.Entry(windowShowSubject, textvariable=codeToSearch)
+    txtM.place(x=160, y=10, width=200, height=30)
     txt = tk.Entry(windowShowSubject)
     txt.place(x=160, y=80, width=200, height=30)
     txt1 = tk.Entry(windowShowSubject)
@@ -120,6 +139,21 @@ def window_showSubject():
     txt5.place(x=160, y=280, width=200, height=30)
     txt6 = tk.Entry(windowShowSubject)
     txt6.place(x=160, y=320, width=200, height=30)
+    
+    lbl = tk.Label(windowShowSubject, text="Código", font=("Arial", 10))
+    lbl.place(x = 60, y = 80)
+    lbl1 = tk.Label(windowShowSubject, text="Nombre", font=("Arial", 10))
+    lbl1.place(x = 60, y = 120)
+    lbl2 = tk.Label(windowShowSubject, text="Pre-requisitos", font=("Arial", 10))
+    lbl2.place(x = 60, y = 160)
+    lbl3 = tk.Label(windowShowSubject, text="Obligatorio", font=("Arial", 10))
+    lbl3.place(x = 60, y = 200)
+    lbl4 = tk.Label(windowShowSubject, text="Semestre", font=("Arial", 10))
+    lbl4.place(x = 60, y = 240)
+    lbl5 = tk.Label(windowShowSubject, text="Créditos", font=("Arial", 10))
+    lbl5.place(x = 60, y = 280)
+    lbl6 = tk.Label(windowShowSubject, text="Estado", font=("Arial", 10))
+    lbl6.place(x = 60, y = 320)
         
     def search():
         result = fn.showSubject(codeToSearch.get())
@@ -144,13 +178,16 @@ def window_showSubject():
         txt5.delete(0, 100)
         txt6.delete(0, 100)
     
-    tk.Button(windowShowSubject, text="Buscar", command=search).pack()
-    tk.Button(windowShowSubject, text="Borrar", command=cleanEntry).pack()
-    tk.Button(windowShowSubject, text="Regresar", command=windowShowSubject.destroy).pack()
+    btn1 = tk.Button(windowShowSubject, text="Buscar", command=search, font=("Arial", 10))
+    btn1.place(x = 380, y = 10, width=100, height=30)
+    btn2 = tk.Button(windowShowSubject, text="Borrar", command=cleanEntry, font=("Arial", 10))
+    btn2.place(x=160, y=370, width=200, height=30)
+    btn3 =  tk.Button(windowShowSubject, text="Regresar", command=windowShowSubject.destroy, font=("Arial", 10))
+    btn3.place(x=20, y=10, width=100, height=30)
     
 def window_editSubject():
     windowEditSubject = tk.Toplevel()
-    windowEditSubject.geometry("500x500")
+    windowEditSubject.geometry("500x450")
     
     code = StringVar()
     name = StringVar()
@@ -161,7 +198,8 @@ def window_editSubject():
     status =StringVar()
     
     codeToSearch = StringVar()
-    tk.Entry(windowEditSubject, textvariable=codeToSearch).pack()
+    txtM = tk.Entry(windowEditSubject, textvariable=codeToSearch)
+    txtM.place(x=160, y=10, width=200, height=30)
     txt = tk.Entry(windowEditSubject, textvariable=code)
     txt.place(x=160, y=80, width=200, height=30)
     txt1 = tk.Entry(windowEditSubject, textvariable=name)
@@ -176,6 +214,21 @@ def window_editSubject():
     txt5.place(x=160, y=280, width=200, height=30)
     txt6 = tk.Entry(windowEditSubject, textvariable=status)
     txt6.place(x=160, y=320, width=200, height=30)
+    
+    lbl = tk.Label(windowEditSubject, text="Código", font=("Arial", 10))
+    lbl.place(x = 60, y = 80)
+    lbl1 = tk.Label(windowEditSubject, text="Nombre", font=("Arial", 10))
+    lbl1.place(x = 60, y = 120)
+    lbl2 = tk.Label(windowEditSubject, text="Pre-requisitos", font=("Arial", 10))
+    lbl2.place(x = 60, y = 160)
+    lbl3 = tk.Label(windowEditSubject, text="Obligatorio", font=("Arial", 10))
+    lbl3.place(x = 60, y = 200)
+    lbl4 = tk.Label(windowEditSubject, text="Semestre", font=("Arial", 10))
+    lbl4.place(x = 60, y = 240)
+    lbl5 = tk.Label(windowEditSubject, text="Créditos", font=("Arial", 10))
+    lbl5.place(x = 60, y = 280)
+    lbl6 = tk.Label(windowEditSubject, text="Estado", font=("Arial", 10))
+    lbl6.place(x = 60, y = 320)
     
     def search():
         result = fn.showSubject(codeToSearch.get())
@@ -197,68 +250,85 @@ def window_editSubject():
                     credi.get(), status.get())
     
     
-    tk.Button(windowEditSubject, text="Buscar", command=search).pack()
-    tk.Button(windowEditSubject, text="Editar", command=edit).pack()
-    tk.Button(windowEditSubject, text="Regresar", command=windowEditSubject.destroy).pack()
+    btn = tk.Button(windowEditSubject, text="Buscar", command=search, font=("Arial", 10))
+    btn.place(x = 380, y = 10, width=100, height=30)
+    btn1 = tk.Button(windowEditSubject, text="Editar", command=edit, font=("Arial", 10))
+    btn1.place(x=160, y=370, width=200, height=30)
+    btn2 = tk.Button(windowEditSubject, text="Regresar", command=windowEditSubject.destroy, font=("Arial", 10))
+    btn2.place(x=20, y=10, width=100, height=30)
     
 
 def window_manageSubjects():
     windowManageSubjects = tk.Toplevel()
     windowManageSubjects.geometry("500x450")
-    lbl = tk.Label(windowManageSubjects, text="Gestionar Cursos")
-    lbl.place(x=205, y=20)
-    btn = tk.Button(windowManageSubjects, text="Listar Cursos", command=window_viewSubjects)
+    lbl = tk.Label(windowManageSubjects, text="Gestionar Cursos", font=("Arial", 12, BOLD))
+    lbl.place(x=190, y=10)
+    btn = tk.Button(windowManageSubjects, text="Listar Cursos", command=window_viewSubjects, font=("Arial", 10))
     btn.place(x=180, y=80, width=150, height=50)
-    btn1 = tk.Button(windowManageSubjects, text="Mostrar Cursos", command=window_showSubject)
+    btn1 = tk.Button(windowManageSubjects, text="Mostrar Cursos", command=window_showSubject, font=("Arial", 10))
     btn1.place(x=180, y=140, width=150, height=50)
-    btn2 = tk.Button(windowManageSubjects, text="Agregar Cursos", command=window_addSubject)
+    btn2 = tk.Button(windowManageSubjects, text="Agregar Cursos", command=window_addSubject, font=("Arial", 10))
     btn2.place(x=180, y=200, width=150, height=50)
-    btn3 = tk.Button(windowManageSubjects, text="Editar Cursos", command=window_editSubject)
+    btn3 = tk.Button(windowManageSubjects, text="Editar Cursos", command=window_editSubject, font=("Arial", 10))
     btn3.place(x=180, y=260, width=150, height=50)
-    btn4 = tk.Button(windowManageSubjects, text="Eliminar Cursos", command=window_deleteSubject)
+    btn4 = tk.Button(windowManageSubjects, text="Eliminar Cursos", command=window_deleteSubject, font=("Arial", 10))
     btn4.place(x=180, y=320, width=150, height=50)
-    btn5 = tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy)
-    btn5.place(x=180, y=380, width=150, height=50)
+    btn5 = tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy, font=("Arial", 10))
+    btn5.place(x=20, y=10, width=100, height=30)
     
 def window_credits():
     windowCredits = tk.Toplevel()
-    windowCredits.geometry("600x600")
-    lbl = tk.Label(windowCredits, text="Conteo de Créditos").pack()
+    windowCredits.geometry("500x450")
+    lbl = tk.Label(windowCredits, text="Conteo de Créditos", font=("Arial", 12, BOLD))
+    lbl.place(x=180, y=10)
     
-    lblApproved_title = tk.Label(windowCredits, text="Créditos Aprobados").pack()
+    lblApproved_title = tk.Label(windowCredits, text="Créditos Aprobados", font=("Arial", 10))
+    lblApproved_title.place(x= 175, y=50)
     approvedCredits = StringVar()
     approvedCredits.set(str(fn.coursesCounter("0")))
-    lblApproved = tk.Label(windowCredits, textvariable=approvedCredits).pack()
+    lblApproved = tk.Label(windowCredits, textvariable=approvedCredits, font=("Arial", 10))
+    lblApproved.place(x=325, y=50)
     
-    lblCursing_title = tk.Label(windowCredits, text="Créditos Cursando").pack()
+    lblCursing_title = tk.Label(windowCredits, text="Créditos Cursando", font=("Arial", 10))
+    lblCursing_title.place(x= 175, y=80)
     cursingCredits = StringVar()
     cursingCredits.set(str(fn.coursesCounter("1")))
-    lblCursing = tk.Label(windowCredits, textvariable=cursingCredits).pack()
-    
-    lblCursingP_title = tk.Label(windowCredits, text="Créditos Pendientes").pack()
+    lblCursing = tk.Label(windowCredits, textvariable=cursingCredits, font=("Arial", 10))
+    lblCursing.place(x=325, y=80)
+
+    lblCursingP_title = tk.Label(windowCredits, text="Créditos Pendientes", font=("Arial", 10))
+    lblCursingP_title.place(x= 175, y=110)
     cursingPCredits = StringVar()
     cursingPCredits.set(str(fn.coursesPCounter("-1", "1")))
-    lblCursingP = tk.Label(windowCredits, textvariable=cursingPCredits).pack()
+    lblCursingP = tk.Label(windowCredits, textvariable=cursingPCredits, font=("Arial", 10))
+    lblCursingP.place(x=325, y=110)
     
     #creditos hasta semestre N
-    lbl = tk.Label(windowCredits, text="Créditos Obligatorioas hasta Semestre N").pack()
+    lbl = tk.Label(windowCredits, text="Créditos Obligatorios hasta Semestre N", font=("Arial", 10, BOLD))
+    lbl.place(x= 130, y= 160)
     combo = ttk.Combobox(windowCredits)
     combo['values'] = ('1','2','3','4','5','6','7','8','9','10')
-    combo.pack()
+    combo.place(x= 135, y= 185, width=120, height=30)
+
  
     credP = StringVar()
  
     def creditsUntilSemester():
         credP.set(str(fn.requiredCredits(combo.get())))
         
-    tk.Button(windowCredits, text="Contar", command=creditsUntilSemester).pack()
-    lbl2 = tk.Label(windowCredits, textvariable=credP).pack()
-        
+    bc = tk.Button(windowCredits, text="Contar", command=creditsUntilSemester)
+    bc.place(x= 260, y= 185, width=120, height=30)
+    lbl2 = tk.Label(windowCredits, text="Resultado:", font=("Arial", 10))
+    lbl2.place(x= 210, y= 225)
+    lbl3 = tk.Label(windowCredits, textvariable=credP, font=("Arial", 10))
+    lbl3.place(x= 280, y= 225)  
+      
     #creditos en semestre N
-    lbl = tk.Label(windowCredits, text="Créditos del Semestre N").pack()
+    lbl = tk.Label(windowCredits, text="Créditos del Semestre N", font=("Arial", 10, BOLD))
+    lbl.place(x= 180, y= 270)
     combo2 = ttk.Combobox(windowCredits)
     combo2['values'] = ('1','2','3','4','5','6','7','8','9','10')
-    combo2.pack()
+    combo2.place(x= 135, y= 295, width=120, height=30)
  
     credA = StringVar()
     credC = StringVar()
@@ -269,33 +339,46 @@ def window_credits():
         credC.set(str(fn.requiredCreditsNC(combo2.get())))
         credPP.set(str(fn.requiredCreditsNP(combo2.get())))
     
-    tk.Button(windowCredits, text="Contar", command=creditsUntilSemesterN).pack()
-    lbl2 = tk.Label(windowCredits, textvariable=credA).pack()
-    lbl2 = tk.Label(windowCredits, textvariable=credC).pack()
-    lbl2 = tk.Label(windowCredits, textvariable=credPP).pack()
+    bb = tk.Button(windowCredits, text="Contar", command=creditsUntilSemesterN)
+    bb.place(x= 260, y= 295, width=120, height=30)
     
-    tk.Button(windowCredits, text="Regresar", command=windowCredits.destroy).pack() 
+    T1 = tk.Label(windowCredits, text="Resultado créditos aprobados:", font=("Arial", 10))
+    T1.place(x= 130, y= 335)
+    T2 = tk.Label(windowCredits, text="Resultado créditos asignados:", font=("Arial", 10))
+    T2.place(x= 130, y= 358)
+    T2 = tk.Label(windowCredits, text="Resultado créditos pendientes:", font=("Arial", 10))
+    T2.place(x= 130, y= 380)
+    
+    lbl7 = tk.Label(windowCredits, textvariable=credA, font=("Arial", 10))
+    lbl7.place(x= 320, y= 335)
+    lbl8 = tk.Label(windowCredits, textvariable=credC, font=("Arial", 10))
+    lbl8.place(x= 320, y= 358)
+    lbl9 = tk.Label(windowCredits, textvariable=credPP, font=("Arial", 10))
+    lbl9.place(x= 320, y= 380)
+    
+    b = tk.Button(windowCredits, text="Regresar", command=windowCredits.destroy)
+    b.place(x=20, y=10, width=100, height=30)
     
 #ventana de menú principal
 window = tk.Tk()
 window.geometry("500x400")
 #window.eval('tk::PlaceWindow . center')
 lbl1 = tk.Wm.title(window, "Gestión de Cursos Ingeniería")
-lbl2 = tk.Label(window, text="Nombre del Curso: Lab. Lenguajes Formales y de Programación")
-lbl2.place(x=75,y=40)
-lbl3 = tk.Label(window, text="Nombre del Estudiante: Aldo Saúl Vásquez Moreira")
-lbl3.place(x=120,y=60)
-lbl4 = tk.Label(window, text="Carné del Estudiante: 202109754")
-lbl4.place(x=160, y=80)
+lbl2 = tk.Label(window, text="Nombre del Curso: Lab. Lenguajes Formales y de Programación", font=("Arial", 12, BOLD))
+lbl2.place(x=5,y=40)
+lbl3 = tk.Label(window, text="Nombre del Estudiante: Aldo Saúl Vásquez Moreira", font=("Arial", 12, BOLD))
+lbl3.place(x=40,y=60)
+lbl4 = tk.Label(window, text="Carné del Estudiante: 202109754", font=("Arial", 12, BOLD))
+lbl4.place(x=130, y=80)
 
 #botones de menú principal
-b = tk.Button(window, text="Cargar Archivo", command=window_openFile)
+b = tk.Button(window, text="Cargar Archivo", command=window_openFile, font=("Arial", 10))
 b.place(x=180, y=120, width=150, height=50)
-b1 = tk.Button(window, text="Gestionar Cursos", command=window_manageSubjects)
+b1 = tk.Button(window, text="Gestionar Cursos", command=window_manageSubjects, font=("Arial", 10))
 b1.place(x=180, y=180, width=150, height=50)
-b2 = tk.Button(window, text="Conteo de Créditos", command=window_credits)
+b2 = tk.Button(window, text="Conteo de Créditos", command=window_credits, font=("Arial", 10))
 b2.place(x=180, y=240, width=150, height=50)
-b3 = tk.Button(window, text="Salir", command=window.destroy)
+b3 = tk.Button(window, text="Salir", command=window.destroy, font=("Arial", 10))
 b3.place(x=180, y=300, width=150, height=50)
 
 window.mainloop()
