@@ -1,6 +1,4 @@
 from __future__ import print_function
-from email import message
-from opcode import opname
 import tkinter as tk
 from tkinter import END, StringVar, filedialog
 from tkinter import ttk
@@ -9,34 +7,40 @@ from Subjects import Subject
 import Functions as fn
 import csv
 
-#funciones
+#funcion para abrir ventana para buscar archivo
 def searchFile():
     file = filedialog.askopenfilename(title="Buscar archivo", filetypes=(("Tipo de archivos", 
     "*.csv"), ("Archivos csv", "*.csv")))
     with open(file) as f:
         reader = csv.reader(f, delimiter=",")
         for data in reader:
-            fn.addSubject(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
-    tk.messagebox.showinfo(message="Archivo cargado al sistema correctamente.", title="Operación realizada con éxito")
+            fn.addSubjectFile(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
+    tk.messagebox.showinfo(message="Archivo cargado al sistema correctamente.", title="Operación realizada con éxito")             
     
-
-       
-def printValues():  
-    longitud = len(Subject.subjects_list)
-    for i in range(0, longitud):
-        print(Subject.subjects_list[i].code+ "," + Subject.subjects_list[i].name + "," + Subject.subjects_list[i].status + "," + Subject.subjects_list[i].credit)              
-
+#funcion para abrir la ventana de abrir archivo    
 def window_openFile():
     windowOpenFile = tk.Toplevel()
     windowOpenFile.geometry("500x200")
     windowOpenFile.config(bg="#EFF193")
+    window.withdraw()
+    
+    #funcion para cerrar la ventana actual e ir al menu principal
+    def goback():
+        windowOpenFile.destroy()
+        window.deiconify()
+    
+    def openFile():
+        searchFile()
+        goback()
+    
     lbl = tk.Label(windowOpenFile, text="Cargar Archivo", font=("Arial", 12, BOLD), bg="#F7DC46")
     lbl.place(x = 195, y = 10)
-    btn = tk.Button(windowOpenFile, text="Buscar Archivo", command=searchFile, font=("Arial", 10), bg="#C4CBCB")
+    btn = tk.Button(windowOpenFile, text="Buscar Archivo", command=openFile, font=("Arial", 10), bg="#C4CBCB")
     btn.place(x=150, y=80, width=200, height=50)
-    btnR = tk.Button(windowOpenFile, text="Regresar", command=windowOpenFile.destroy, font=("Arial", 10), bg="#C4CBCB")
+    btnR = tk.Button(windowOpenFile, text="Regresar", command=goback, font=("Arial", 10), bg="#C4CBCB")
     btnR.place(x=20, y=10, width=100, height=30)
     
+#funcion para abrir tabla de cursos    
 def window_viewSubjects():
     windowViewSubjects = tk.Toplevel()
     windowViewSubjects.geometry("500x500")
@@ -54,7 +58,8 @@ def window_viewSubjects():
     for data in Subject.subjects_list:
         table.insert('',0, text=data.code, values=(data.name, data.prerequisites, data.required, 
         data.semester, data.credit, data.status))
-     
+
+#funcion para abrir ventana de agregar curso individual     
 def window_addSubject():
     windowAddSubject = tk.Toplevel()
     windowAddSubject.geometry("500x450")
@@ -101,8 +106,8 @@ def window_addSubject():
     lbl6.place(x = 60, y = 320)
     
     def addS():
-        fn.addSubject(code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(), credi.get(), status.get())
-        tk.messagebox.showinfo(message="Curso agregado al sistema correctamente.", title="Operación realizada con éxito")
+        fn.addSubjectIndividual(code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(), credi.get(), status.get())
+        #vaciar los entry
         txt.delete(0, 100)
         txt1.delete(0, 100)
         txt2.delete(0, 100)
@@ -115,7 +120,8 @@ def window_addSubject():
     btn.place(x=160, y=360, width=200, height=30)
     btn2 = tk.Button(windowAddSubject, text="Regresar", command=windowAddSubject.destroy, font=("Arial", 10), bg="#C4CBCB")
     btn2.place(x=20, y=10, width=100, height=30) 
-    
+ 
+#funcion para abrir ventana de eliminar curso    
 def window_deleteSubject():
     windowDeleteSubject = tk.Toplevel()
     windowDeleteSubject.geometry("500x250")
@@ -131,11 +137,13 @@ def window_deleteSubject():
     btn.place(x=50, y=150, width=400, height=35)
     btn1 = tk.Button(windowDeleteSubject, text="Regresar", command=windowDeleteSubject.destroy, bg="#C4CBCB")
     btn1.place(x=20, y=20, width=100, height=30)
-    
+  
+#funcion para abrir ventana de mostrar curso    
 def window_showSubject():
     windowShowSubject = tk.Toplevel()
     windowShowSubject.geometry("500x500")
     windowShowSubject.config(bg="#EFF193")
+    window.withdraw()
     codeToSearch = StringVar()
     
     txtM = tk.Entry(windowShowSubject, textvariable=codeToSearch)
@@ -200,6 +208,7 @@ def window_showSubject():
     btn3 =  tk.Button(windowShowSubject, text="Regresar", command=windowShowSubject.destroy, font=("Arial", 10), bg="#C4CBCB")
     btn3.place(x=20, y=10, width=100, height=30)
     
+#funcion para abrir ventana de editar curso    
 def window_editSubject():
     windowEditSubject = tk.Toplevel()
     windowEditSubject.geometry("500x450")
@@ -278,11 +287,16 @@ def window_editSubject():
     btn2 = tk.Button(windowEditSubject, text="Regresar", command=windowEditSubject.destroy, font=("Arial", 10), bg="#C4CBCB")
     btn2.place(x=20, y=10, width=100, height=30)
     
-
+#funcion para abrir ventana de administrar cursos
 def window_manageSubjects():
     windowManageSubjects = tk.Toplevel()
     windowManageSubjects.geometry("500x450")
     windowManageSubjects.config(bg="#EFF193")
+    window.withdraw()
+    def goback():
+        windowManageSubjects.destroy()
+        window.deiconify()
+    
     lbl = tk.Label(windowManageSubjects, text="Gestionar Cursos", font=("Arial", 12, BOLD), bg="#F7DC46")
     lbl.place(x=190, y=10)
     btn = tk.Button(windowManageSubjects, text="Listar Cursos", command=window_viewSubjects, font=("Arial", 10), bg="#C4CBCB")
@@ -295,13 +309,15 @@ def window_manageSubjects():
     btn3.place(x=180, y=260, width=150, height=50)
     btn4 = tk.Button(windowManageSubjects, text="Eliminar Cursos", command=window_deleteSubject, font=("Arial", 10), bg="#C4CBCB")
     btn4.place(x=180, y=320, width=150, height=50)
-    btn5 = tk.Button(windowManageSubjects, text="Regresar", command=windowManageSubjects.destroy, font=("Arial", 10), bg="#C4CBCB")
+    btn5 = tk.Button(windowManageSubjects, text="Regresar", command=goback, font=("Arial", 10), bg="#C4CBCB")
     btn5.place(x=20, y=10, width=100, height=30)
-    
+ 
+#funcion para abrir ventana de contar creditos    
 def window_credits():
     windowCredits = tk.Toplevel()
     windowCredits.geometry("500x450")
     windowCredits.config(bg="#EFF193")
+    window.withdraw()
     lbl = tk.Label(windowCredits, text="Conteo de Créditos", font=("Arial", 12, BOLD), bg="#F7DC46")
     lbl.place(x=180, y=10)
     
@@ -361,6 +377,10 @@ def window_credits():
         credA.set(str(fn.requiredCreditsNA(combo2.get())))
         credC.set(str(fn.requiredCreditsNC(combo2.get())))
         credPP.set(str(fn.requiredCreditsNP(combo2.get())))
+        
+    def goback():
+        windowCredits.destroy()
+        window.deiconify()
     
     bb = tk.Button(windowCredits, text="Contar", command=creditsUntilSemesterN, bg="#C4CBCB")
     bb.place(x= 260, y= 295, width=120, height=30)
@@ -379,7 +399,7 @@ def window_credits():
     lbl9 = tk.Label(windowCredits, textvariable=credPP, font=("Arial", 10), bg="#F7DC46")
     lbl9.place(x= 320, y= 380)
     
-    b = tk.Button(windowCredits, text="Regresar", command=windowCredits.destroy, bg="#C4CBCB")
+    b = tk.Button(windowCredits, text="Regresar", command=goback, bg="#C4CBCB")
     b.place(x=20, y=10, width=100, height=30)
     
 #ventana de menú principal
