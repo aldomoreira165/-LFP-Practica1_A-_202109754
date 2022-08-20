@@ -1,8 +1,5 @@
-from ast import If
 from tkinter import messagebox
-from tokenize import Number
 from Subjects import Subject
-import tkinter as tk
 
 #funcion para agregar cursos de forma individual
 def addSubjectIndividual(code, name, prerequisites, required, semester, credit, status):
@@ -12,23 +9,34 @@ def addSubjectIndividual(code, name, prerequisites, required, semester, credit, 
         if Subject.subjects_list[i].code == code:
             answer = True
             break
-
+         
     if answer == True:
-        messagebox.showerror(
-            message="El curso que desea agregar ya existe.", title="Operación no realizada.")
+        messagebox.showerror(message="El curso que desea agregar ya existe.", title="Operación no realizada.")
+    elif (required != "0" and required != "1"):
+        messagebox.showerror(message="Dato no aceptado en el campo 'Obligatorio'.", title="Operación no realizada.")
+    elif (semester != "1" and semester != "2" and semester != "3" and semester != "4" and semester != "5" and semester != "6" and semester != "7" and semester != "8" and semester != "9" and semester != "10"):
+        messagebox.showerror(message="Dato no aceptado en el campo 'Semestre'.", title="Operación no realizada.")
+    elif (status != "1" and status != "0" and status != "-1"):
+        messagebox.showerror(message="Dato no aceptado en el campo 'Estado'.", title="Operación no realizada.")
     else:
-        newSubject = Subject(code, name, prerequisites,
-                             required, semester, credit, status)
+        newSubject = Subject(code, name, prerequisites,required, semester, credit, status)
         Subject.subjects_list.append(newSubject)
         messagebox.showinfo(message="Curso agregado correctamente.", title="Operación realizada con éxito")
         print(len(Subject.subjects_list))
 
 #funcion para agregar archivo csv
 def addSubjectFile(code, name, prerequisites, required, semester, credit, status):
-    newSubject = Subject(code, name, prerequisites,
-                         required, semester, credit, status)
-    Subject.subjects_list.append(newSubject)
-    print(len(Subject.subjects_list))
+    added = False
+    longitude = len(Subject.subjects_list)
+    for i in range(longitude):
+        if Subject.subjects_list[i].code == code:
+            added = True
+            break
+     
+    if (added == False):    
+        newSubject = Subject(code, name, prerequisites, required, semester, credit, status)
+        Subject.subjects_list.append(newSubject)
+        print(len(Subject.subjects_list))
 
 #funcion para eliminar un curso
 def deleteSubject(codeParameter):
@@ -48,6 +56,16 @@ def deleteSubject(codeParameter):
 
 #funcion para modificar un curso
 def modifySubject(position, code, name, prerequisites, required, semester, credit, status):
+    longitude = len(Subject.subjects_list)
+    answer = False
+         
+    if (required != "0" and required != "1"):
+        messagebox.showerror(message="Dato no aceptado en el campo 'Obligatorio'.", title="Operación no realizada.")
+    elif (semester != "1" and semester != "2" and semester != "3" and semester != "4" and semester != "5" and semester != "6" and semester != "7" and semester != "8" and semester != "9" and semester != "10"):
+        messagebox.showerror(message="Dato no aceptado en el campo 'Semestre'.", title="Operación no realizada.")
+    elif (status != "1" and status != "0" and status != "-1"):
+        messagebox.showerror(message="Dato no aceptado en el campo 'Estado'.", title="Operación no realizada.")
+    else:
         Subject.subjects_list[position].code = code
         Subject.subjects_list[position].name = name
         Subject.subjects_list[position].prerequisites = prerequisites

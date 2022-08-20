@@ -11,7 +11,7 @@ import csv
 def searchFile():
     file = filedialog.askopenfilename(title="Buscar archivo", filetypes=(("Tipo de archivos", 
     "*.csv"), ("Archivos csv", "*.csv")))
-    with open(file) as f:
+    with open(file, encoding="utf-8") as f:
         reader = csv.reader(f, delimiter=",")
         for data in reader:
             fn.addSubjectFile(data[0], data[1], data[2], data[3], data[4], data[5], data[6])
@@ -43,8 +43,10 @@ def window_openFile():
 #funcion para abrir tabla de cursos    
 def window_viewSubjects():
     windowViewSubjects = tk.Toplevel()
-    windowViewSubjects.geometry("500x500")
+    windowViewSubjects.geometry("1400x300")
     windowViewSubjects.config(bg="#EFF193")
+    salir = tk.Button(windowViewSubjects, text="Regresar", command=windowViewSubjects.destroy)
+    salir.place(x=700, y=230, width=100, height=30)
     table = ttk.Treeview(windowViewSubjects, columns=("#0","#1","#2","#3","#4","#5"))
     table.grid(row=1, column=0, columnspan=2)
     table.heading("#0", text="Código")
@@ -58,7 +60,7 @@ def window_viewSubjects():
     for data in Subject.subjects_list:
         table.insert('',0, text=data.code, values=(data.name, data.prerequisites, data.required, 
         data.semester, data.credit, data.status))
-
+        
 #funcion para abrir ventana de agregar curso individual     
 def window_addSubject():
     windowAddSubject = tk.Toplevel()
@@ -270,7 +272,7 @@ def window_editSubject():
             
     def edit():
         position = fn.searchPosition(codeToSearch.get());
-        fn.modifySubject(position, code.get(), name.get(), prerequisite.get(), semester.get(), requested.get(),credi.get(), status.get())
+        fn.modifySubject(position,code.get(), name.get(), prerequisite.get(), requested.get(), semester.get(),credi.get(), status.get())
         txt.delete(0, 100)
         txt1.delete(0, 100)
         txt2.delete(0, 100)
@@ -278,7 +280,6 @@ def window_editSubject():
         txt4.delete(0, 100)
         txt5.delete(0, 100)
         txt6.delete(0, 100)
-    
     
     btn = tk.Button(windowEditSubject, text="Buscar", command=search, font=("Arial", 10), bg="#C4CBCB")
     btn.place(x = 380, y = 10, width=100, height=30)
@@ -348,7 +349,6 @@ def window_credits():
     combo = ttk.Combobox(windowCredits)
     combo['values'] = ('1','2','3','4','5','6','7','8','9','10')
     combo.place(x= 135, y= 185, width=120, height=30)
-
  
     credP = StringVar()
  
